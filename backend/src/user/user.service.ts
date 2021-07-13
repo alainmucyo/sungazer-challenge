@@ -17,7 +17,7 @@ export class UserService {
     return await user.save();
   }
 
-  async findUserByUsername({ username }) {
+  async findUserByUsername(username: string) {
     return this.userRepo.findOne({ where: { username } });
   }
 }
