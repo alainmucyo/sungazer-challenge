@@ -1,39 +1,48 @@
 import { UserService } from "./user.service";
 import {
+  BadRequestException,
   Body,
   Controller,
-  HttpCode,
+  Get,
   Post,
-  UnauthorizedException,
+  Req,
+  Request,
+  UseGuards,
 } from "@nestjs/common";
-import { AuthService } from "./auth.service";
+import { RegisterDto } from "./dto/register.dto";
+import { AuthGuard } from "@nestjs/passport";
+import { AuthService } from "../auth/auth.service";
 
 @Controller("user")
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly authService: AuthService,
+    private authService: AuthService,
   ) {}
 
   @Post("/register")
-  register(
-    @Body("name") name: string,
-    @Body("username") username: string,
-    @Body("password") password: string,
-  ) {
-    return this.userService.storeUser({ name, username, password });
+  async register(@Body() registerDto: RegisterDto) {
+    const user = await this.userService.findUserByUsername(
+      registerDto.username,
+    );
+    if (user != null)
+      throw new BadRequestException(["Username have been already used"]);
+    return this.userService.storeUser({
+      name: registerDto.name,
+      username: registerDto.username,
+      password: registerDto.password,
+    });
   }
 
   @Post("/login")
-  @HttpCode(200)
-  async login(
-    @Body("username") username: string,
-    @Body("password") password: string,
-  ) {
-    const user = await this.authService.login(username, password);
-    if (user == null) {
-      throw new UnauthorizedException();
-    }
-    return user;
+  @UseGuards(AuthGuard("local"))
+  async login(@Request() req) {
+    return this.authService.login(req);
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @Get("/check")
+  checkLogin(@Request() req) {
+    return req.user;
   }
 }
