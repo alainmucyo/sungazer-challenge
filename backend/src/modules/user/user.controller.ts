@@ -2,12 +2,13 @@ import { UserService } from "./user.service";
 import {
   BadRequestException,
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   Post,
-  Req,
   Request,
   UseGuards,
+  UseInterceptors,
 } from "@nestjs/common";
 import { RegisterDto } from "./dto/register.dto";
 import { AuthGuard } from "@nestjs/passport";
@@ -27,11 +28,11 @@ export class UserController {
     );
     if (user != null)
       throw new BadRequestException(["Username have been already used"]);
-    return this.userService.storeUser({
-      name: registerDto.name,
-      username: registerDto.username,
-      password: registerDto.password,
-    });
+    return this.authService.register(
+      registerDto.name,
+      registerDto.username,
+      registerDto.password,
+    );
   }
 
   @Post("/login")
@@ -42,6 +43,7 @@ export class UserController {
 
   @UseGuards(AuthGuard("jwt"))
   @Get("/check")
+  @UseInterceptors(ClassSerializerInterceptor)
   checkLogin(@Request() req) {
     return req.user;
   }

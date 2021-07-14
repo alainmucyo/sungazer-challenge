@@ -4,24 +4,37 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import * as bcrypt from "bcrypt";
+import { Transaction } from "../transaction/entities/transaction.entity";
+import { Exclude } from "class-transformer";
+import { IsNotEmpty } from "class-validator";
 
 @Entity("users")
-export class UserEntity extends BaseEntity {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @IsNotEmpty()
   @Column()
   name: string;
 
+  @IsNotEmpty()
   @Column({ unique: true })
   username: string;
 
+  @Column({ default: 0 })
+  balance: number;
+
   @Column()
+  @Exclude()
   password: string;
+
+  @OneToMany(() => Transaction, (transaction) => transaction.user)
+  transactions: Transaction[];
 
   @CreateDateColumn()
   created_at: Date;

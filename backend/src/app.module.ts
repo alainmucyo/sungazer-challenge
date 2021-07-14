@@ -3,8 +3,9 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { DatabaseConnectionService } from "./config/db";
-import { AuthModule } from "./auth/auth.module";
-import { UserModule } from "./user/user.module";
+import { AuthModule } from "./modules/auth/auth.module";
+import { UserModule } from "./modules/user/user.module";
+import { TransactionModule } from "./modules/transaction/transaction.module";
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UserModule } from "./user/user.module";
     }),
     AuthModule,
     UserModule,
+    TransactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

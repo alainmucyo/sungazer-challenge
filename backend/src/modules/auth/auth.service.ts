@@ -2,7 +2,7 @@ import { UserService } from "../user/user.service";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import * as bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
-import { UserEntity } from "../user/user.entity";
+import { User } from "../user/user.entity";
 
 @Injectable()
 export class AuthService {
@@ -20,7 +20,17 @@ export class AuthService {
     return user;
   }
   async login({ user }: any) {
-    console.log(user.username);
+    const payload = { username: user.username, sub: user.id };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
+  async register(name, username, password: any) {
+    const user = await this.userService.storeUser({
+      name,
+      username,
+      password,
+    });
     const payload = { username: user.username, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
