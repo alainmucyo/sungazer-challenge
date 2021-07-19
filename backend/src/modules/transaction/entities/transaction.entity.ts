@@ -32,6 +32,10 @@ export class Transaction extends BaseEntity {
   @Column()
   amount: number;
 
+  @IsNotEmpty()
+  @Column()
+  description: string;
+
   @ManyToOne(() => User, (user) => user.transactions)
   user: User;
   @CreateDateColumn()

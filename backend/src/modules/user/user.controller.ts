@@ -14,7 +14,7 @@ import { RegisterDto } from "./dto/register.dto";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "../auth/auth.service";
 
-@Controller("user")
+@Controller("api/users")
 export class UserController {
   constructor(
     private readonly userService: UserService,
