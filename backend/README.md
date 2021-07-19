@@ -18,8 +18,8 @@ $ npm run start:prod
 ```
 
 ## Endpoints
-```
-POST /api/users/register 
+``` markdown
+$ POST /api/users/register 
      {
        name:'',
        username:'',
