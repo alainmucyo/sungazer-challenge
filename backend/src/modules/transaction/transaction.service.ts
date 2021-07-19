@@ -13,6 +13,7 @@ export class TransactionService {
     const transaction = new Transaction();
     transaction.type = createTransactionDto.type;
     transaction.amount = createTransactionDto.amount;
+    transaction.description = createTransactionDto.description;
     transaction.user = user;
 
     // Computing new balance

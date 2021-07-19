@@ -1,18 +1,20 @@
 import {
-  Body, ClassSerializerInterceptor,
+  Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   Post,
   Request,
   UnprocessableEntityException,
-  UseGuards, UseInterceptors,
+  UseGuards,
+  UseInterceptors,
 } from "@nestjs/common";
 import { TransactionService } from "./transaction.service";
 import { CreateTransactionDto } from "./dto/create-transaction.dto";
 import { AuthGuard } from "@nestjs/passport";
 import { TransactionType } from "./entities/transaction.entity";
 
-@Controller("transactions")
+@Controller("api/transactions")
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 

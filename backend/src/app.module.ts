@@ -6,6 +6,7 @@ import { DatabaseConnectionService } from "./config/db";
 import { AuthModule } from "./modules/auth/auth.module";
 import { UserModule } from "./modules/user/user.module";
 import { TransactionModule } from "./modules/transaction/transaction.module";
+import { SwaggerModule } from "@nestjs/swagger";
 
 @Module({
   imports: [
