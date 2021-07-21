@@ -17,6 +17,8 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+### GET /docs for documentation
+
 ## Endpoints
 ``` markdown
 $ POST /api/users/register 
